@@ -1,15 +1,21 @@
 package org.itstep.service;
 
 import java.io.BufferedInputStream;
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.io.Reader;
 import java.nio.file.Files;
+import java.util.ArrayList;
+import java.util.List;
 
+import org.itstep.entity.ConnectionEntity;
 import org.itstep.entity.MySimpleObject;
 
 public class FileManagerService {
@@ -100,6 +106,38 @@ public class FileManagerService {
 			e.printStackTrace();
 		}
 	}
+	
+	public static List<ConnectionEntity> readConnectionsInfoFromFile(){
+		List<ConnectionEntity> connectionEntities = new ArrayList<>();
+		
+		try (
+				Reader fileReader = new FileReader(TEXT_FILE_PATH);
+				BufferedReader bufferedReader = new BufferedReader(fileReader);
+			){
+			String line;
+			while ((line = bufferedReader.readLine()) != null) {
+				String[] words = line.split(" ");
+				Long time = Long.parseLong(words[0]);
+				Integer sessionId = Integer.parseInt(words[1]);
+				String ip = words[2];				
+				ConnectionEntity connectionEntity = new ConnectionEntity(time, sessionId, ip);
+				connectionEntities.add(connectionEntity);
+			}
+			
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
+		return connectionEntities;
+	}
+	
+	
+	
+	
+	
+	
+	
+	
 	
 	
 }
