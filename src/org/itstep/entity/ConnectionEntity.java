@@ -5,6 +5,7 @@ public class ConnectionEntity {
 	private Long time;
 	private Integer sessionId;
 	private String ip;
+	
 	public Long getTime() {
 		return time;
 	}

@@ -5,6 +5,7 @@ import java.util.logging.Logger;
 import org.itstep.entity.ConnectionEntity;
 import org.itstep.entity.MySimpleObject;
 import org.itstep.service.FileManagerService;
+import org.itstep.service.MultithreadService;
 import org.itstep.util.Randomizer;
 
 public class ApplicationRunner {
@@ -22,16 +23,23 @@ public class ApplicationRunner {
 //		FileManagerService.copyFile("cats.jpg", "cats-copy.jpg");
 		
 		
-		Long time = System.currentTimeMillis();
-		Integer sessionId = Randomizer.getNumber(10000000, 99999999);
-		String ip = Randomizer.getNumber(1, 255) + "."
-					+ Randomizer.getNumber(1, 255) + "."
-					+ Randomizer.getNumber(1, 255) + "."
-					+ Randomizer.getNumber(1, 255);
+//		Long time = System.currentTimeMillis();
+//		Integer sessionId = Randomizer.getNumber(10000000, 99999999);
+//		String ip = Randomizer.getNumber(1, 255) + "."
+//					+ Randomizer.getNumber(1, 255) + "."
+//					+ Randomizer.getNumber(1, 255) + "."
+//					+ Randomizer.getNumber(1, 255);
+//		
+//		ConnectionEntity connectionEntity = new ConnectionEntity(time, sessionId, ip);
+//		
+//		FileManagerService.writeTextToFile(connectionEntity.toString(), true);
 		
-		ConnectionEntity connectionEntity = new ConnectionEntity(time, sessionId, ip);
+		for (int i = 1; i <= 5; i++) {
+			MultithreadService service = new MultithreadService("thread " + i);
+			service.start();
+		}
 		
-		FileManagerService.writeTextToFile(connectionEntity.toString(), true);
+		
 	}
 
 }

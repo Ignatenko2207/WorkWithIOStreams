@@ -82,7 +82,7 @@ public class FileManagerService {
 
 	// text
 
-	public static void writeTextToFile(String text, boolean append) {
+	public static synchronized void writeTextToFile(String text, boolean append) {
 		try (FileWriter fileWriter = new FileWriter(TEXT_FILE_PATH, append)) {
 			fileWriter.write(text + "\n");
 			fileWriter.flush();
@@ -91,7 +91,7 @@ public class FileManagerService {
 		}
 	}
 
-	public static List<ConnectionEntity> readConnectionsInfoFromFile() {
+	public static synchronized List<ConnectionEntity> readConnectionsInfoFromFile() {
 		List<ConnectionEntity> connectionEntities = new ArrayList<>();
 
 		try (Reader fileReader = new FileReader(TEXT_FILE_PATH);
@@ -111,6 +111,16 @@ public class FileManagerService {
 		}
 
 		return connectionEntities;
+	}
+	
+	
+	public static synchronized void showAsyncImplementation(String threadName) {
+		try {
+			new Thread().sleep(1000);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+		System.out.println("Thread name is " + threadName);
 	}
 
 }
